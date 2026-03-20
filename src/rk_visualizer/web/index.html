@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="no">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Runge-Kutta Visualizer</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <div class="ambient ambient-one"></div>
+      <div class="ambient ambient-two"></div>
+      <header class="hero">
+        <p class="eyebrow"></p>
+        <h1>Se Runge-Kutta-metoden jage løsningen.</h1>
+        <p class="hero-copy">
+          Skriv inn differensiallikningen, velg metode og la animasjonen vise
+          hvordan de numeriske stegene approksimerer banen gjennom fasefeltet.
+        </p>
+      </header>
+
+      <main class="app-grid">
+        <aside class="control-panel">
+          <section class="panel-card panel-intro">
+            <div class="panel-heading">
+              <span class="panel-tag">Input</span>
+              <h2>Problemoppsett</h2>
+            </div>
+            <p class="panel-copy">
+              Hold oppsettet enkelt: en funksjon, ett initialpunkt og en metode.
+              Resten av siden er bare animasjonen.
+            </p>
+            <div class="preset-row">
+              <button class="preset-chip" data-preset="classic" type="button">Klassisk test</button>
+              <button class="preset-chip" data-preset="decay" type="button">Demping</button>
+              <button class="preset-chip" data-preset="oscillation" type="button">Svingning</button>
+            </div>
+          </section>
+
+          <form id="simulation-form" class="panel-card form-card">
+            <label class="field">
+              <span class="field-label">y' = f(t, y)</span>
+              <input id="function-input" name="function" value="y - t**2 + 1" />
+            </label>
+
+            <label class="field">
+              <span class="field-label">Eksakt y(t) (valgfritt)</span>
+              <input id="exact-input" name="exact_function" value="(t + 1)**2 - 0.5 * exp(t)" />
+            </label>
+
+            <div class="field-grid">
+              <label class="field">
+                <span class="field-label">Metode</span>
+                <select id="method-select" name="method"></select>
+              </label>
+              <label class="field">
+                <span class="field-label">Steg</span>
+                <input id="steps-input" name="steps" type="number" min="1" step="1" value="10" />
+              </label>
+              <label class="field">
+                <span class="field-label">t0</span>
+                <input id="t0-input" name="t0" type="number" step="any" value="0" />
+              </label>
+              <label class="field">
+                <span class="field-label">y0</span>
+                <input id="y0-input" name="y0" type="number" step="any" value="0.5" />
+              </label>
+              <label class="field">
+                <span class="field-label">h</span>
+                <input id="h-input" name="h" type="number" min="0.0001" step="any" value="0.2" />
+              </label>
+              <label class="field">
+                <span class="field-label">Referanse</span>
+                <input id="refinement-input" name="refinement" type="number" min="2" step="1" value="40" />
+              </label>
+            </div>
+
+            <div class="action-row">
+              <button id="simulate-button" class="primary-button" type="submit">
+                Start animasjon
+              </button>
+              <p id="form-status" class="form-status">Klar.</p>
+            </div>
+          </form>
+
+          <section class="panel-card meta-card">
+            <div class="meta-pill-row">
+              <span class="meta-pill" id="method-pill">Metode</span>
+              <span class="meta-pill subtle" id="reference-pill">Referanse</span>
+            </div>
+            <div class="meta-grid">
+              <article>
+                <span class="meta-label">Sluttverdi</span>
+                <strong id="final-value">-</strong>
+              </article>
+              <article>
+                <span class="meta-label">Sluttfeil</span>
+                <strong id="final-error">-</strong>
+              </article>
+              <article>
+                <span class="meta-label">Maksfeil</span>
+                <strong id="max-error">-</strong>
+              </article>
+            </div>
+          </section>
+        </aside>
+
+        <section class="stage-panel">
+          <div class="stage-topbar">
+            <div>
+              <p class="stage-label">Aktiv fase</p>
+              <h2 id="phase-title">Ingen simulering enda</h2>
+            </div>
+            <div class="toolbar-actions">
+              <button id="play-toggle" class="ghost-button" type="button">Pause</button>
+              <button id="restart-button" class="ghost-button" type="button">Restart</button>
+              <label class="speed-control">
+                <span>Hastighet</span>
+                <input id="speed-input" type="range" min="0.4" max="2.8" step="0.1" value="1.0" />
+              </label>
+            </div>
+          </div>
+
+          <div class="canvas-frame">
+            <canvas id="scene"></canvas>
+            <div class="canvas-overlay">
+              <span class="overlay-chip" id="overlay-step">Steg -</span>
+              <span class="overlay-chip muted" id="overlay-speed">1.0x</span>
+            </div>
+          </div>
+
+          <div class="caption-grid">
+            <article class="caption-card">
+              <span class="caption-label">Forklaring</span>
+              <p id="phase-description">
+                Skriv inn et problem og start animasjonen.
+              </p>
+            </article>
+            <article class="caption-card formula-card">
+              <span class="caption-label">Aktiv formel</span>
+              <pre id="phase-formula">Formelen for den aktive fasen vises her.</pre>
+            </article>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="/app.js" defer></script>
+  </body>
+</html>
