@@ -1,7 +1,7 @@
 # RK Visualizer
 
 Runge-Kutta metoder er numeriske metoder som brukes for å løse differensialligninger.
-Dette python-prosjekt som visualiserer noen av dem :D
+Dette python-prosjekt visualiserer noen av dem :D
 
 ## Kjøre
 ```bash
